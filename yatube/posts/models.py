@@ -56,5 +56,5 @@ class Comment(models.Model):
             models.UniqueConstraint(fields=[
                 'post',
                 'author'],
-                                    name='unique_together'),
+                name='unique_together'),
         ]
