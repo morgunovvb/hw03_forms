@@ -1,6 +1,8 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+
 
 from .models import Post, Group, User
 from .forms import PostForm
@@ -8,7 +10,7 @@ from .forms import PostForm
 
 def index(request):
     posts = Post.objects.all()
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, settings.PAGINATOR_CONST)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     title = 'Последние обновления на сайте'
@@ -25,7 +27,7 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, settings.PAGINATOR_CONST)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -39,7 +41,7 @@ def profile(request, username):
     posts = User.objects.get(username=username).posts.all()
     author = get_object_or_404(User, username=username)
     post_count = posts.count()
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, settings.PAGINATOR_CONST)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {

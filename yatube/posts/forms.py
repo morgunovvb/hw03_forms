@@ -9,25 +9,25 @@ User = get_user_model()
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ("group", "text")
+        fields = ('group', 'text')
         group = forms.ModelChoiceField(queryset=Post.objects.all(),
-                                       required=False, to_field_name="group")
+                                       required=False, to_field_name='group')
         widgets = {
             'text': forms.Textarea(),
         }
         labels = {
-            "group": "Группа",
-            "text": "Текст"
+            'group': 'Группа',
+            'text': 'Текст'
         }
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ("text",)
+        fields = ('text',)
         widgets = {
             'text': forms.Textarea(),
         }
         labels = {
-            "text": "Текст"
+            'text': 'Текст'
         }

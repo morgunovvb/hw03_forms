@@ -45,9 +45,13 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="comments",
+        related_name='comments',
         null=True
     )
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-    unique_together = ["post", "author"]
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['post', 'author'], name='unique_together'),
+        ]

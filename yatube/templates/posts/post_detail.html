@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-<title>{{ title }}</title>
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
 <div class="row">
   <aside class="col-12 col-md-3">
@@ -28,10 +28,12 @@
     <p>
       {{ posts.text }} 
     </p>
+    {% if user == post.author %}
     <a class="btn btn-primary" href="{% url 'posts:post_edit' posts.pk %}">
       редактировать запись
-    </a> 
+    </a>
+    {% endif %}
   </article>
 </div> 
 {% endblock %}
-
+#1
