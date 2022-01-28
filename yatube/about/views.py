@@ -1,5 +1,4 @@
 from django.views.generic.base import TemplateView
-from django.shortcuts import render
 
 
 class AboutAuthorView(TemplateView):
@@ -9,6 +8,7 @@ class AboutAuthorView(TemplateView):
         context = super().get_context_data1(**kwargs)
         context['just_title'] = 'Об авторе проекта1'
         return context
+
 
 class AboutTechView(TemplateView):
     template_name = 'about/tech.html'
