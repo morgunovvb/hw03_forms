@@ -51,10 +51,12 @@ class Comment(models.Model):
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=[
                 'post',
-                'author'],
+                'author'
+                'group'],
                 name='unique_together'),
         ]

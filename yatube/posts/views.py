@@ -8,18 +8,27 @@ from .models import Post, Group, User
 from .forms import PostForm
 
 
+def get_page_context(queryset, request):
+    paginator = Paginator(queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return {
+        'paginator': paginator,
+        'page_number': page_number,
+        'page_obj': page_obj,
+    }
+
+
 def index(request):
     posts = Post.objects.all()
     paginator = Paginator(posts, settings.PAGINATOR_CONST)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     title = 'Последние обновления на сайте'
-    text = 'Последние обновления на сайте'
     context = {
         'page_obj': page_obj,
         'posts': posts,
         'title': title,
-        'text': text
     }
     return render(request, 'posts/index.html', context)
 
@@ -27,28 +36,23 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()
-    paginator = Paginator(posts, settings.PAGINATOR_CONST)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
-        'page_obj': page_obj,
+        'posts': posts,
     }
+    context.update(get_page_context(group.posts.all(), request))
     return render(request, 'posts/group_list.html', context)
 
 
 def profile(request, username):
-    posts = User.objects.get(username=username).posts.all()
     author = get_object_or_404(User, username=username)
+    posts = Post.objects.all()
     post_count = posts.count()
-    paginator = Paginator(posts, settings.PAGINATOR_CONST)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'author': author,
-        'page_obj': page_obj,
         'post_count': post_count,
     }
+    context.update(get_page_context(author.posts.all(), request))
     return render(request, 'posts/profile.html', context)
 
 
