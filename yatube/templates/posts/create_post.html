@@ -14,13 +14,13 @@
                   Новый пост
                 {% endif %}                     
               </div>
-              <div class="card-body">        
-                
+              <div class="card-body">
+                {% load user_filters %} 
                 <form method="post" href=".">
                   {% csrf_token %}            
                   <div class="form-group row my-3 p-3">
-                    <label for="id_text">
-                      Текст поста                  
+                    <label for="{{ field.id_for_label }}">
+                      {{ field.label }}           
                       <span class="required text-danger" >*</span>
                     </label>
                     {{ form.text }}
