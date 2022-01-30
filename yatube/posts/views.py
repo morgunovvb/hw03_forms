@@ -8,9 +8,6 @@ from .models import Post, Group, User
 from .forms import PostForm
 
 
-
-
-
 def index(request):
     posts = Post.objects.all()
     title = 'Последние обновления на сайте'
